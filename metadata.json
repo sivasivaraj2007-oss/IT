@@ -1,0 +1,6 @@
+{
+  "name": "Smart Attendance",
+  "description": "Smart Student Attendance Management System with 56 student records, admin dashboard, faculty attendance marking, and subject-wise analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
