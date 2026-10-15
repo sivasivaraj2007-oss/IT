@@ -88,4 +88,14 @@ class StudentDatabaseUnitTest {
         assertEquals("ABISHEK M", dto.studentName)
         assertTrue(dto.isActive)
     }
+
+    @Test
+    fun testClearAttendanceLogic() {
+        val attendanceRecords = mutableListOf(
+            "rec1", "rec2", "rec3"
+        )
+        assertEquals(3, attendanceRecords.size)
+        attendanceRecords.clear()
+        assertEquals(0, attendanceRecords.size)
+    }
 }

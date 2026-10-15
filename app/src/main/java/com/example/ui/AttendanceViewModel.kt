@@ -195,6 +195,35 @@ class AttendanceViewModel(
         }
     }
 
+    fun clearCurrentSession() {
+        viewModelScope.launch {
+            val subjectId = _selectedSubjectId.value
+            val date = _selectedDate.value
+            val period = _selectedPeriod.value
+            repository.clearSessionAttendance(subjectId, date, period)
+            val defaultMap = allStudents.value.associate { it.rollNumber to AttendanceStatus.PRESENT }
+            _sessionAttendance.value = defaultMap
+            _feedbackMessage.value = "Current session ($date, Period $period) cleared!"
+        }
+    }
+
+    fun clearAllAttendanceHistory() {
+        viewModelScope.launch {
+            repository.clearAllAttendanceRecords()
+            loadCurrentSessionAttendance()
+            _feedbackMessage.value = "All attendance history cleared! (App attendance reset to 0%)"
+        }
+    }
+
+    fun resetEntireApp() {
+        viewModelScope.launch {
+            repository.resetAppToFactoryDefaults()
+            loadCurrentSessionAttendance()
+            verifyDatabase()
+            _feedbackMessage.value = "App fully reset: All 56 active students restored, all records cleared."
+        }
+    }
+
     fun testBackendConnection(url: String, key: String) {
         viewModelScope.launch {
             val res = backendSyncManager?.testConnection(url, key)

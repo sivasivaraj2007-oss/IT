@@ -65,6 +65,12 @@ interface AttendanceDao {
     @Query("SELECT * FROM attendance_records WHERE subject_id = :subjectId")
     fun getAttendanceForSubject(subjectId: String): Flow<List<AttendanceRecord>>
 
+    @Query("DELETE FROM attendance_records")
+    suspend fun clearAllAttendanceRecords()
+
+    @Query("DELETE FROM attendance_records WHERE date = :date")
+    suspend fun clearAttendanceForDate(date: String)
+
     @Query("SELECT COUNT(DISTINCT date || '_' || subject_id || '_' || period) FROM attendance_records")
     suspend fun getTotalSessionsCount(): Int
 }

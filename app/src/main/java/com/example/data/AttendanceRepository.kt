@@ -91,4 +91,18 @@ class AttendanceRepository(private val dao: AttendanceDao) {
             AppDatabase.populateDatabase(dao)
         }
     }
+
+    suspend fun clearAllAttendanceRecords() = withContext(Dispatchers.IO) {
+        dao.clearAllAttendanceRecords()
+    }
+
+    suspend fun clearSessionAttendance(subjectId: String, date: String, period: Int) = withContext(Dispatchers.IO) {
+        dao.deleteSessionAttendance(subjectId, date, period)
+    }
+
+    suspend fun resetAppToFactoryDefaults() = withContext(Dispatchers.IO) {
+        dao.clearAllAttendanceRecords()
+        dao.insertOrUpdateStudents(InitialData.STUDENTS)
+        dao.insertSubjects(InitialData.SUBJECTS)
+    }
 }
